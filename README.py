@@ -40,7 +40,8 @@ class Student:
 
     def __str__(self):
         return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade_student()}"
-                f"\nКурсы в процессе изучения: {"".join(self.courses_in_progress)}\nЗавершенные курсы: {"".join(self.finished_courses)}")
+                f"\nКурсы в процессе изучения: {"".join(self.courses_in_progress)}"
+                f"\nЗавершенные курсы: {"".join(self.finished_courses)}")
 
 
 class Mentor:
