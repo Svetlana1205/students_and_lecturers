@@ -80,7 +80,7 @@ class Lecturer(Mentor):
 
 
 class Reviewer(Mentor):
-    
+
     def __init__(self, name, surname):
         super().__init__(name, surname)
 
@@ -96,30 +96,63 @@ class Reviewer(Mentor):
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}"
 
+
+def average_homework_grade_for_course(students, course_name):
+    total_grade = 0
+    count = 0
+    for student in students:
+        if course_name in student.courses_in_progress:
+            grades_for_course = student.grades.get(course_name, [])
+            total_grade += sum(grades_for_course)
+            count += len(grades_for_course)
+    return total_grade / count if count > 0 else 0
+
+def average_lecture_grade_for_course(lecturers, course_name):
+    total_grade = 0
+    count = 0
+    for lecturer in lecturers:
+        if course_name in lecturer.courses_attached:
+            grades_for_course = lecturer.grades.get(course_name, [])
+            total_grade += sum(grades_for_course)
+            count += sum(grades_for_course)
+    return total_grade / count if count > 0 else 0
+
 inspector = Reviewer("Georg", "Katunin")
-print(inspector)
+
 lecturer1 = Lecturer("Svetlana", "Katunina")
 lecturer1.courses_attached += ["Python"]
 lecturer2 = Lecturer("John", "Smith")
 lecturer2.courses_attached += ["Python"]
+
 best_student = Student("Ruoy", "Eman", "male")
 best_student.finished_courses += ["Git"]
 best_student.courses_in_progress += ["Python"]
 best_student.grades["Git"] = [10, 10, 10, 10, 10]
 best_student.grades["Python"] = [10, 10]
+
 student1 = Student("Kate", "Ellis", "famale")
 student1.finished_courses += ["Git"]
 student1.courses_in_progress += ["Python"]
 student1.grades["Git"] = [8, 8, 8, 8, 8]
 student1.grades["Python"] = [10, 8]
+
 best_student.rate_lecture(lecturer1, "Python", 10)
 best_student.rate_lecture(lecturer2, "Python", 8)
+
 student1.rate_lecture(lecturer1, "Python", 10)
 student1.rate_lecture(lecturer2, "Python", 9)
-# print(lecturer2.average_grade())
-print(best_student)
+
+students = [best_student, student1]
+average_grade_for_students = average_homework_grade_for_course(students, "Python")
+
+lecturers = [lecturer1, lecturer2]
+average_grade_for_lecturers = average_lecture_grade_for_course(lecturers, "Python")
+print(f"Средняя оценка студентов за домашнуюю работу по курсу Python: {average_grade_for_students}")
+print(f"Средняя оценка лекторов за лекции по курсу Python: {average_grade_for_lecturers }")
+# print(inspector)
+# print(best_student)
 # print(lecturer2)
 # print(student1)
-print(lecturer1)
-print(best_student < student1)
-print(lecturer1 < lecturer2)
+# print(lecturer1)
+# print(best_student < student1)
+# print(lecturer1 < lecturer2)
