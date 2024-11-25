@@ -1,4 +1,5 @@
 class Student:
+
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -37,7 +38,6 @@ class Student:
     def __eq__(self, other):
         return self.average_grade_student() == other.average_grade_student()
 
-
     def __str__(self):
         return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade_student()}"
                 f"\nКурсы в процессе изучения: {"".join(self.courses_in_progress)}"
@@ -50,7 +50,9 @@ class Mentor:
         self.surname = surname
         self.courses_attached = []
 
+
 class Lecturer(Mentor):
+
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
@@ -73,12 +75,12 @@ class Lecturer(Mentor):
     def __eq__(self, other):
         return self.average_grade() == other.average_grade()
 
-
     def __str__(self):
         return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}"
 
 
 class Reviewer(Mentor):
+    
     def __init__(self, name, surname):
         super().__init__(name, surname)
 
