@@ -19,8 +19,28 @@ class Student:
         else:
             return "Ошибка"
 
+    def average_grade_student (self):
+        if self.grades:
+            all_grades_student = []
+            for grade_list in self.grades.values():
+                all_grades_student.extend(grade_list)
+            return sum(all_grades_student) / len(all_grades_student)
+        else:
+            return "Оценки еще не проставлены"
+
+    def __lt__(self, other):
+        return self.average_grade_student() < other.average_grade_student()
+
+    def __le__(self, other):
+        return self.average_grade_student() <= other.average_grade_student()
+
+    def __eq__(self, other):
+        return self.average_grade_student() == other.average_grade_student()
+
+
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}'
+        return (f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade_student()}"
+                f"\nКурсы в процессе изучения: {"".join(self.courses_in_progress)}\nЗавершенные курсы: {"".join(self.finished_courses)}")
 
 
 class Mentor:
@@ -43,8 +63,18 @@ class Lecturer(Mentor):
         else:
             return "Оценки ещё не проставлены"
 
+    def __lt__(self, other):
+        return self.average_grade() < other.average_grade()
+
+    def __le__(self, other):
+        return self.average_grade() <= other.average_grade()
+
+    def __eq__(self, other):
+        return self.average_grade() == other.average_grade()
+
+
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}'
+        return f"Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.average_grade()}"
 
 
 class Reviewer(Mentor):
@@ -61,20 +91,32 @@ class Reviewer(Mentor):
             return "Ошибка"
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}'
+        return f"Имя: {self.name}\nФамилия: {self.surname}"
 
 inspector = Reviewer("Georg", "Katunin")
-# print(inspector)
+print(inspector)
 lecturer1 = Lecturer("Svetlana", "Katunina")
-lecturer1.courses_attached += ['Python']
-best_student = Student('Ruoy', 'Eman', 'male')
-best_student.finished_courses += ['Git']
-best_student.courses_in_progress += ['Python']
-best_student.grades['Git'] = [10, 10, 10, 10, 10]
-best_student.grades['Python'] = [10, 10]
-
+lecturer1.courses_attached += ["Python"]
+lecturer2 = Lecturer("John", "Smith")
+lecturer2.courses_attached += ["Python"]
+best_student = Student("Ruoy", "Eman", "male")
+best_student.finished_courses += ["Git"]
+best_student.courses_in_progress += ["Python"]
+best_student.grades["Git"] = [10, 10, 10, 10, 10]
+best_student.grades["Python"] = [10, 10]
+student1 = Student("Kate", "Ellis", "famale")
+student1.finished_courses += ["Git"]
+student1.courses_in_progress += ["Python"]
+student1.grades["Git"] = [8, 8, 8, 8, 8]
+student1.grades["Python"] = [10, 8]
 best_student.rate_lecture(lecturer1, "Python", 10)
-best_student.rate_lecture(lecturer1, "Python", 10)
-best_student.rate_lecture(lecturer1, "Python", 7)
-# print(lecturer1.average_grade())
+best_student.rate_lecture(lecturer2, "Python", 8)
+student1.rate_lecture(lecturer1, "Python", 10)
+student1.rate_lecture(lecturer2, "Python", 9)
+# print(lecturer2.average_grade())
+print(best_student)
+# print(lecturer2)
+# print(student1)
 print(lecturer1)
+print(best_student < student1)
+print(lecturer1 < lecturer2)
